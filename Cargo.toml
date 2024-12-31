@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-imxrt-hal = "*"
-imxrt-ral = { version = "*", features = ["imxrt1011"]}
+imxrt-hal = { version = "*", features = ["imxrt1010"] }
+imxrt-ral = { version = "*", features = ["imxrt1011"] }
 cortex-m = { version = "0.7.6", features = ["critical-section-single-core"] }
 cortex-m-rt = "0.7"
 cortex-m-semihosting = "0.5"
