@@ -5,7 +5,6 @@
 
 use imxrt_ral as ral;
 use cortex_m::asm;
-use cortex_m_rt::entry;
 
 use panic_halt as _; 
 
