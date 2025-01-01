@@ -9,7 +9,7 @@ members = ["board", "logging"]
 [workspace.dependencies]
 imxrt-dma = "0.1"
 imxrt-iomuxc = "0.3.0"
-imxrt-hal = { version = "0.6.0" }
+imxrt-hal = { git = "https://github.com/imxrt-rs/imxrt-hal", rev="aa57636"}
 imxrt-log = { path = "logging", default-features = false, features = [
     "log",
     "lpuart",
@@ -54,6 +54,3 @@ git = "https://github.com/imxrt-rs/imxrt-ral"
 
 [patch.crates-io.imxrt-iomuxc]
 git = "https://github.com/imxrt-rs/imxrt-iomuxc"
-
-[patch.crates-io.imxrt-hal]
-git = "https://github.com/imxrt-rs/imxrt-hal"
