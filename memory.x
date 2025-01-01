@@ -1,6 +1,6 @@
 MEMORY
 {
-    RAM     (rwx): ORIGIN = 0x20200000, LENGTH = 512K
+    RAM     (rwx): ORIGIN = 0x20200000, LENGTH = 128K
     FLASH   (rwx): ORIGIN = 0x60001400, LENGTH = 1979K
     BOOT    (r  ): ORIGIN = 0x60000000, LENGTH = 5K
 }

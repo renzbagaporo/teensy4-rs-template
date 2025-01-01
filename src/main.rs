@@ -4,6 +4,7 @@
 #![no_std]
 
 use imxrt_ral as ral;
+use cortex_m_rt as _;
 use cortex_m::asm;
 
 use panic_halt as _; 
@@ -14,6 +15,7 @@ fn main() -> ! {
 
     loop {
         // your code goes here
+        asm::nop(); // To not have main optimize to abort in release mode, remove when you add code
     }
 }
 
