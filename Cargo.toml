@@ -4,12 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["board"]
+members = ["board", "logging"]
 
 [workspace.dependencies]
 imxrt-dma = "0.1"
 imxrt-iomuxc = "0.3.0"
-imxrt-hal = { version = "0.6" }
+imxrt-hal = { version = "0.6.0" }
 imxrt-log = { path = "logging", default-features = false, features = [
     "log",
     "lpuart",
@@ -19,6 +19,13 @@ imxrt-ral = "0.6"
 imxrt-rt = "0.1.5"
 imxrt-usbd = "0.3"
 defmt = "0.3"
+
+[workspace.package]
+repository = "https://github.com/imxrt-rs/imxrt-hal"
+keywords = ["imxrt", "nxp", "embedded", "no_std", "embedded-hal"]
+categories = ["embedded", "no-std"]
+license = "MIT OR Apache-2.0"
+edition = "2021"
 
 [dependencies]
 cortex-m = "0.7"
@@ -41,3 +48,12 @@ bench = false
 codegen-units = 1 # better optimizations
 debug = true # symbols are nice and they don't increase the size on Flash
 lto = true # better optimizations
+
+[patch.crates-io.imxrt-ral]
+git = "https://github.com/imxrt-rs/imxrt-ral"
+
+[patch.crates-io.imxrt-iomuxc]
+git = "https://github.com/imxrt-rs/imxrt-iomuxc"
+
+[patch.crates-io.imxrt-hal]
+git = "https://github.com/imxrt-rs/imxrt-hal"
