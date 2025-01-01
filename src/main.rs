@@ -20,6 +20,11 @@ const LED: u32 = 1 << LED_OFFSET;
 /// for the timer.
 const PIT_PERIOD_US: u32 = 1_000_000;
 
+#[cortex_m_rt::pre_init]
+unsafe fn before_main() {
+    // do something here
+}
+
 #[cortex_m_rt::entry]
 fn main() -> ! {
     let iomuxc = unsafe { ral::iomuxc::IOMUXC::instance() };

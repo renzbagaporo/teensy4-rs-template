@@ -7,10 +7,17 @@ edition = "2021"
 imxrt-ral = { version = "*", features = ["imxrt1011", "rt"] }
 cortex-m = { version = "0.7.6", features = ["critical-section-single-core"] }
 panic-halt = "1.0.0"
+imxrt-rt = { version = "*"}
 
 [dependencies.cortex-m-rt]
 features = ["device"]
 version = "0.7"
+
+[dependencies.defmt]
+version = "0.3"
+
+[build-dependencies]
+imxrt-rt = {version = "*"}
 
 [[bin]]
 name = "rt1010-rs-blinky"

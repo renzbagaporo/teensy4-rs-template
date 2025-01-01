@@ -11,25 +11,20 @@
         "chip": "MIMXRT1010",
         "flashingConfig": {
           "flashingEnabled": true,
-          "haltAfterReset": false,
+          "haltAfterReset": true,
           "formatOptions": {
           }
         },
         "coreConfigs": [
           {
             "coreIndex": 0,
-            //!MODIFY
             "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/rt1010-rs-blinky",
-            //!MODIFY
             "svdFile": "${workspaceFolder}/MIMXRT1010.svd"
           }
         ],
         "env": {
-          //!MODIFY (or remove)
-          // If you set this variable, check the VSCode console log window for the location of the log file.
           "RUST_LOG": "info"
         },
-         // Info, Debug
         "consoleLogLevel": "Console"
       }
     ]
