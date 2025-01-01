@@ -19,7 +19,7 @@
           {
             "coreIndex": 0,
             "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/rt1010-rs-blinky",
-            "svdFile": "${workspaceFolder}/MIMXRT1010.svd"
+            "svdFile": "${workspaceFolder}/.vscode/MIMXRT1010.svd"
           }
         ],
         "env": {
