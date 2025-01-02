@@ -33,9 +33,6 @@ pub use ral_shim::{BOARD_DMA_A_INDEX, BOARD_DMA_B_INDEX, NVIC_PRIO_BITS};
 #[path = "imxrt1010evk.rs"]
 mod board_impl;
 
-#[cfg(feature = "lcd1602")]
-pub use lcd_1602_i2c as lcd1602;
-
 // rustdoc doesn't like when this is named 'board'
 // since it happens to match the package name.
 // So went with an '_impl' suffix.
@@ -143,8 +140,6 @@ const GPT1_DIVIDER: u32 = 10;
 const GPT2_DIVIDER: u32 = 100;
 const GPT_SELECTION: hal::gpt::ClockSource = hal::gpt::ClockSource::HighFrequencyReferenceClock;
 
-/// Target SPI baud rate (Hz).
-pub const SPI_BAUD_RATE_FREQUENCY: u32 = 1_000_000;
 /// The console baud rate: 115200bps.
 pub const CONSOLE_BAUD: hal::lpuart::Baud = hal::lpuart::Baud::compute(UART_CLK_FREQUENCY, 115200);
 /// Target I2C baud rate (Hz).
