@@ -30,24 +30,7 @@ pub enum RunMode {
 
 pub use ral_shim::{BOARD_DMA_A_INDEX, BOARD_DMA_B_INDEX, NVIC_PRIO_BITS};
 
-#[cfg(board = "imxrt1010evk")]
 #[path = "imxrt1010evk.rs"]
-mod board_impl;
-
-#[cfg(board = "imxrt1060evk")]
-#[path = "imxrt1060evk.rs"]
-mod board_impl;
-
-#[cfg(board = "teensy4")]
-#[path = "teensy4.rs"]
-mod board_impl;
-
-#[cfg(board = "imxrt1170evk-cm7")]
-#[path = "imxrt1170evk-cm7.rs"]
-mod board_impl;
-
-#[cfg(board = "imxrt1180evk-cm33")]
-#[path = "imxrt1180evk-cm33.rs"]
 mod board_impl;
 
 #[cfg(feature = "lcd1602")]
@@ -62,7 +45,6 @@ pub use board_impl::*;
 ///
 /// This includes timers, DMA channels, and things
 /// that don't necessarily depend on a pinout.
-#[cfg(any(chip = "imxrt1010", chip = "imxrt1060", chip = "imxrt1170"))]
 pub struct Common {
     /// PIT channels.
     pub pit: hal::pit::Channels,
@@ -92,7 +74,6 @@ pub struct Common {
     pub usbphy1: UsbPhy1,
 }
 
-#[cfg(any(chip = "imxrt1010", chip = "imxrt1060", chip = "imxrt1170"))]
 impl Common {
     /// Prepares common resources.
     fn new() -> Self {
@@ -132,16 +113,6 @@ impl Common {
     }
 }
 
-#[cfg(chip = "imxrt1180")]
-#[non_exhaustive]
-pub struct Common {}
-
-#[cfg(chip = "imxrt1180")]
-impl Common {
-    fn new() -> Self {
-        Self {}
-    }
-}
 /// Board entrypoint.
 ///
 /// Use this to configure the hardware and acquire peripherals.
@@ -180,17 +151,7 @@ pub const CONSOLE_BAUD: hal::lpuart::Baud = hal::lpuart::Baud::compute(UART_CLK_
 pub const I2C_BAUD_RATE: hal::lpi2c::Timing =
     hal::lpi2c::Timing::ideal(LPI2C_CLK_FREQUENCY, hal::lpi2c::ClockSpeed::KHz400);
 
-#[cfg(chip = "imxrt1010")]
 use iomuxc::imxrt1010::Pads;
-
-#[cfg(chip = "imxrt1060")]
-use iomuxc::imxrt1060::Pads;
-
-#[cfg(chip = "imxrt1170")]
-use iomuxc::imxrt1170::Pads;
-
-#[cfg(chip = "imxrt1180")]
-use iomuxc::imxrt1180::Pads;
 
 /// Convert the IOMUXC peripheral into pad objects.
 fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
@@ -211,7 +172,6 @@ where
     gpt
 }
 
-#[cfg(chip = "imxrt1010")]
 mod usb1 {
     use crate::ral;
 
@@ -220,21 +180,9 @@ mod usb1 {
     pub type UsbNc1 = ral::usbnc::USBNC;
 }
 
-#[cfg(not(chip = "imxrt1010"))]
-mod usb1 {
-    use crate::ral;
-
-    pub type Usb1 = ral::usb::USB1;
-    pub type UsbPhy1 = ral::usbphy::USBPHY1;
-    pub type UsbNc1 = ral::usbnc::USBNC1;
-}
-
 use usb1::*;
 
-#[cfg(any(chip = "imxrt1010", chip = "imxrt1060"))]
 type Pit = crate::ral::pit::PIT;
-#[cfg(chip = "imxrt1170")]
-type Pit = crate::ral::pit::PIT1;
 
 /// Board interrupts.
 ///

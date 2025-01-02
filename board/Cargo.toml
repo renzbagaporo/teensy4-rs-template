@@ -37,15 +37,6 @@ features = ["defmt-03"]
 version = "0.7"
 features = ["critical-section-single-core"]
 
-# Use existing FCB, instead of defining inline.
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.teensy4-fcb]
-optional = true
-version = "0.3"
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.teensy4-panic]
-optional = true
-version = "0.2"
-
 # Other boards may choose to define their FCB inline.
 [dependencies.imxrt-boot-gen]
 optional = true
@@ -80,18 +71,6 @@ features = ["cortex-m"]
 version = "0.1"
 optional = true
 
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.imxrt1060evk-fcb]
-version = "0.1"
-optional = true
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.imxrt1170evk-fcb]
-version = "0.1"
-optional = true
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.imxrt1180evk-fcb]
-version = "0.1"
-optional = true
-
 [features]
 imxrt1010evk = [
     "imxrt-iomuxc/imxrt1010",
@@ -101,41 +80,6 @@ imxrt1010evk = [
     "defmt-rtt",
     "panic-probe",
     "imxrt-log",
-]
-imxrt1060evk = [
-    "imxrt-iomuxc/imxrt1060",
-    "imxrt-ral/imxrt1062",
-    "imxrt-hal/imxrt1060",
-    "imxrt1060evk-fcb",
-    "defmt-rtt",
-    "panic-probe",
-    "imxrt-log",
-]
-teensy4 = [
-    "imxrt-iomuxc/imxrt1060",
-    "imxrt-ral/imxrt1062",
-    "imxrt-hal/imxrt1060",
-    "teensy4-fcb",
-    "teensy4-panic",
-    "imxrt-log",
-    "logging-defmt",
-]
-imxrt1170evk-cm7 = [
-    "imxrt-iomuxc/imxrt1170",
-    "imxrt-ral/imxrt1176_cm7",
-    "imxrt-hal/imxrt1170",
-    "imxrt1170evk-fcb",
-    "defmt-rtt",
-    "panic-probe",
-    "imxrt-log",
-]
-imxrt1180evk-cm33 = [
-    "imxrt-iomuxc/imxrt1180",
-    "imxrt-ral/imxrt1189_cm33",
-    "imxrt-hal/imxrt1180",
-    "imxrt1180evk-fcb",
-    "defmt-rtt",
-    "panic-probe",
 ]
 logging-defmt = ["imxrt-log/defmt"]
 

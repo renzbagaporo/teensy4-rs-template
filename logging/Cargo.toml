@@ -64,4 +64,4 @@ workspace = true
 
 [package.metadata.docs.rs]
 default-target = "thumbv7em-none-eabihf"
-features = ["defmt", "imxrt-ral/imxrt1062", "imxrt-hal/imxrt1060"]
+features = ["defmt"]
