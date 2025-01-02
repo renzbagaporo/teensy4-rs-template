@@ -4,17 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["board", "logging"]
+members = ["board"]
 
 [workspace.dependencies]
 imxrt-dma = "0.1"
 imxrt-iomuxc = "0.3.0"
 imxrt-hal = { git = "https://github.com/imxrt-rs/imxrt-hal", rev="aa57636"}
-imxrt-log = { path = "logging", default-features = false, features = [
-    "log",
-    "lpuart",
-    "usbd",
-] }
 imxrt-ral = "0.6"
 imxrt-rt = "0.1.5"
 imxrt-usbd = "0.3"

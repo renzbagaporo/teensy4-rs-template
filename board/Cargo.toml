@@ -24,11 +24,6 @@ workspace = true
 [build-dependencies.imxrt-rt]
 workspace = true
 
-[dependencies.imxrt-log]
-workspace = true
-optional = true
-default-features = false
-
 [dependencies.imxrt-usbd]
 workspace = true
 features = ["defmt-03"]
@@ -41,10 +36,6 @@ features = ["critical-section-single-core"]
 [dependencies.imxrt-boot-gen]
 optional = true
 version = "0.2"
-
-[dependencies.lcd_1602_i2c]
-version = "0.3"
-optional = true
 
 # knurling-rs style defmt-rtt with panic-probe
 [target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.defmt-rtt]
@@ -79,16 +70,4 @@ imxrt1010evk = [
     "imxrt1010evk-fcb",
     "defmt-rtt",
     "panic-probe",
-    "imxrt-log",
 ]
-logging-defmt = ["imxrt-log/defmt"]
-
-# Some boards (Teensy 4) require a resource
-# configuration to enable the (easily accessible)
-# SPI peripheral. Turn on this feature to activate
-# the SPI peripheral.
-#
-# See board-specific documentation for its effects.
-spi = []
-
-lcd1602 = ["dep:lcd_1602_i2c"]
