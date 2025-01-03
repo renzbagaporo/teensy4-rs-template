@@ -50,28 +50,6 @@ pub const fn perclk_frequency(run_mode: RunMode) -> u32 {
     hz / perclk_divider(run_mode)
 }
 
-/// Specify the LPSPI clock divider for a given run mode.
-const fn lpspi_divider(run_mode: RunMode) -> u32 {
-    match run_mode {
-        RunMode::Overdrive => 4,
-    }
-}
-
-const fn lpspi_selection(run_mode: RunMode) -> lpspi_clk::Selection {
-    match run_mode {
-        RunMode::Overdrive => lpspi_clk::Selection::Pll2,
-    }
-}
-
-/// Returns the target LPSPI clock frequency for the run mode.
-pub const fn lpspi_frequency(run_mode: RunMode) -> u32 {
-    let hz = match run_mode {
-        RunMode::Overdrive => analog::pll2::FREQUENCY,
-    };
-    hz / lpspi_divider(run_mode)
-}
-
-const _: () = assert!(lpspi_frequency(RunMode::Overdrive) == 132_000_000); // Max allowed
 
 const fn uart_divider(run_mode: RunMode) -> u32 {
     match run_mode {
@@ -95,28 +73,6 @@ pub const fn uart_frequency(run_mode: RunMode) -> u32 {
 
 const _: () = assert!(uart_frequency(RunMode::Overdrive) == 80_000_000); // Max allowed
 
-const fn lpi2c_divider(run_mode: RunMode) -> u32 {
-    match run_mode {
-        RunMode::Overdrive => 3,
-    }
-}
-
-const fn lpi2c_selection(run_mode: RunMode) -> lpi2c_clk::Selection {
-    match run_mode {
-        RunMode::Overdrive => lpi2c_clk::Selection::Oscillator,
-    }
-}
-
-/// Returns the LPI2C clock frequency for the run mode.
-pub const fn lpi2c_frequency(run_mode: RunMode) -> u32 {
-    let hz = match run_mode {
-        RunMode::Overdrive => XTAL_OSCILLATOR_HZ,
-    };
-    hz / lpi2c_divider(run_mode)
-}
-
-const _: () = assert!(lpi2c_frequency(RunMode::Overdrive) == 8_000_000); // Max is 66MHz.
-
 /// Configure the PERCLK root clock.
 ///
 /// When this call returns, the PERCLK clock frequency match the values
@@ -132,21 +88,6 @@ pub fn configure_perclk(run_mode: RunMode, ccm: &mut CCM) {
     perclk_clk::set_divider(ccm, perclk_divider(run_mode));
 }
 
-/// Configure the LPSPI root clock.
-///
-/// When this call returns, the LPSPI clock frequency match the values
-/// returned by the [`lpspi_frequency()`] function.
-///
-/// This function will disable the clock gates for various peripherals. It
-/// may leave these clock gates disabled.
-pub fn configure_lpspi(run_mode: RunMode, ccm: &mut CCM) {
-    clock_gate::LPSPI_CLOCK_GATES
-        .iter()
-        .for_each(|locator| locator.set(ccm, clock_gate::OFF));
-    lpspi_clk::set_selection(ccm, lpspi_selection(run_mode));
-    lpspi_clk::set_divider(ccm, lpspi_divider(run_mode));
-}
-
 /// Configure the UART root clock.
 ///
 /// When this call returns, the UART clock frequency match the values
@@ -160,19 +101,4 @@ pub fn configure_uart(run_mode: RunMode, ccm: &mut CCM) {
         .for_each(|locator| locator.set(ccm, clock_gate::OFF));
     uart_clk::set_selection(ccm, uart_selection(run_mode));
     uart_clk::set_divider(ccm, uart_divider(run_mode));
-}
-
-/// Configure the LPI2C root clock.
-///
-/// When this call returns, the LPI2C clock frequency match the values
-/// returned by the [`lpi2c_frequency()`] function.
-///
-/// This function will disable the clock gates for various peripherals. It
-/// may leave these clock gates disabled.
-pub fn configure_lpi2c(run_mode: RunMode, ccm: &mut CCM) {
-    clock_gate::LPI2C_CLOCK_GATES
-        .iter()
-        .for_each(|locator| locator.set(ccm, clock_gate::OFF));
-    lpi2c_clk::set_selection(ccm, lpi2c_selection(run_mode));
-    lpi2c_clk::set_divider(ccm, lpi2c_divider(run_mode));
 }

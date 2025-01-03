@@ -36,8 +36,6 @@ fn prepare_clock_tree(
 ) {
     use crate::hal::ccm;
     clock_tree::configure_ahb_ipg(RUN_MODE, ccm, ccm_analog);
-    clock_tree::configure_lpi2c(RUN_MODE, ccm);
-    clock_tree::configure_lpspi(RUN_MODE, ccm);
     clock_tree::configure_perclk(RUN_MODE, ccm);
     clock_tree::configure_uart(RUN_MODE, ccm);
     ccm::analog::pll3::restart(ccm_analog);
@@ -68,11 +66,6 @@ pub const GPT2_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT2_DI
 /// The UART clock frequency (Hz).
 pub const UART_CLK_FREQUENCY: u32 = clock_tree::uart_frequency(RUN_MODE);
 
-/// The LPSPI clock frequency (Hz).
-pub const LPSPI_CLK_FREQUENCY: u32 = clock_tree::lpspi_frequency(RUN_MODE);
-
-/// The LPI2C clock frequency (Hz).
-pub const LPI2C_CLK_FREQUENCY: u32 = clock_tree::lpi2c_frequency(RUN_MODE);
 
 pub const PWM_PRESCALER: hal::flexpwm::Prescaler = hal::flexpwm::Prescaler::Prescaler8;
 pub const PWM_FREQUENCY: u32 = clock_tree::ipg_frequency(RUN_MODE) / PWM_PRESCALER.divider();

@@ -57,21 +57,6 @@ pub type Console = hal::lpuart::Lpuart<ConsolePins, 1>;
 /// host and the MCU.
 pub type ConsolePins = crate::hal::lpuart::Pins<iomuxc::gpio::GPIO_10, iomuxc::gpio::GPIO_09>;
 
-pub type SpiPins = hal::lpspi::Pins<
-    iomuxc::gpio_ad::GPIO_AD_04, // SDO, J57_8
-    iomuxc::gpio_ad::GPIO_AD_03, // SDI, J57_10
-    iomuxc::gpio_ad::GPIO_AD_06, // SCK, J57_12
-    iomuxc::gpio_ad::GPIO_AD_05, // PCS0, J57_6
->;
-
-
-pub type I2cPins = hal::lpi2c::Pins<
-    iomuxc::gpio::GPIO_02, // SCL, J57_20
-    iomuxc::gpio::GPIO_01, // SDA, J57_18
->;
-
-pub type I2c = hal::lpi2c::Lpi2c<I2cPins, 1>;
-
 /// PWM components.
 pub mod pwm {
     use super::iomuxc;
@@ -132,8 +117,6 @@ pub struct Specifics {
     pub led: Led,
     pub button: Button,
     pub ports: GpioPorts,
-    pub console: Console,
-    pub i2c: I2c,
     pub pwm: Pwm,
     pub tp34: Tp34,
     pub tp31: Tp31,
@@ -154,30 +137,6 @@ impl Specifics {
 
         let led = gpio1.output(iomuxc.gpio.p11);
         let button = gpio2.input(iomuxc.gpio_sd.p05);
-
-        let lpuart1 = unsafe { ral::lpuart::LPUART1::instance() };
-        let mut console = hal::lpuart::Lpuart::new(
-            lpuart1,
-            hal::lpuart::Pins {
-                tx: iomuxc.gpio.p10,
-                rx: iomuxc.gpio.p09,
-            },
-        );
-        console.disable(|console| {
-            console.set_baud(&super::CONSOLE_BAUD);
-            console.set_parity(None);
-        });
-
-
-        let lpi2c1 = unsafe { ral::lpi2c::LPI2C1::instance() };
-        let i2c = I2c::new(
-            lpi2c1,
-            I2cPins {
-                scl: iomuxc.gpio.p02,
-                sda: iomuxc.gpio.p01,
-            },
-            &super::I2C_BAUD_RATE,
-        );
 
         let pwm = {
             let flexpwm = unsafe { ral::pwm::PWM::instance() };
@@ -206,8 +165,6 @@ impl Specifics {
             led,
             button,
             ports: GpioPorts { gpio2 },
-            console,
-            i2c,
             pwm,
             tp34: iomuxc.gpio_sd.p02,
             tp31: iomuxc.gpio_sd.p01,
@@ -223,7 +180,6 @@ use hal::ccm::clock_gate;
 pub(crate) const CLOCK_GATES: &[clock_gate::Locator] = &[
     clock_gate::gpio::<1>(),
     clock_gate::lpuart::<{ Console::N }>(),
-    clock_gate::lpi2c::<{ I2c::N }>(),
     clock_gate::flexpwm::<{ pwm::Peripheral::N }>(),
 ];
 
@@ -240,15 +196,6 @@ fn configure_pins(
     }: &mut super::Pads,
 ) {
     use crate::iomuxc;
-    const I2C_PIN_CONFIG: iomuxc::Config = iomuxc::Config::zero()
-        .set_open_drain(iomuxc::OpenDrain::Enabled)
-        .set_slew_rate(iomuxc::SlewRate::Fast)
-        .set_drive_strength(iomuxc::DriveStrength::R0_4)
-        .set_speed(iomuxc::Speed::Fast)
-        .set_pull_keeper(Some(iomuxc::PullKeeper::Pullup22k));
-
-    iomuxc::configure(&mut gpio.p02, I2C_PIN_CONFIG);
-    iomuxc::configure(&mut gpio.p01, I2C_PIN_CONFIG);
 
     const BUTTON_CONFIG: iomuxc::Config = iomuxc::Config::zero()
         .set_pull_keeper(Some(iomuxc::PullKeeper::Pullup100k))
@@ -260,17 +207,6 @@ fn configure_pins(
     // Set the pin muxing for the two test points.
     crate::iomuxc::ccm::prepare(&mut gpio_sd.p01);
     crate::iomuxc::ccm::prepare(&mut gpio_sd.p02);
-
-    const SPI_PIN_CONFIG: iomuxc::Config = iomuxc::Config::zero()
-        .set_drive_strength(iomuxc::DriveStrength::R0_4)
-        .set_open_drain(iomuxc::OpenDrain::Disabled)
-        .set_hysteresis(iomuxc::Hysteresis::Disabled)
-        .set_pull_keeper(None);
-
-    iomuxc::configure(&mut gpio_ad.p04, SPI_PIN_CONFIG);
-    iomuxc::configure(&mut gpio_ad.p03, SPI_PIN_CONFIG);
-    iomuxc::configure(&mut gpio_ad.p06, SPI_PIN_CONFIG);
-    iomuxc::configure(&mut gpio_ad.p05, SPI_PIN_CONFIG);
 }
 
 /// Helpers for the clock_out example.
@@ -308,7 +244,6 @@ pub mod interrupt {
 
     pub const BOARD_CONSOLE: Interrupt = Interrupt::LPUART1;
     pub const BOARD_BUTTON: Interrupt = Interrupt::GPIO2_COMBINED_0_15;
-    pub const BOARD_SPI: Interrupt = Interrupt::LPSPI1;
     pub const BOARD_PWM: Interrupt = Interrupt::PWM1_2;
     pub const BOARD_DMA_A: Interrupt = Interrupt::DMA7;
     pub const BOARD_DMA_B: Interrupt = Interrupt::DMA11;
@@ -321,7 +256,6 @@ pub mod interrupt {
     pub const INTERRUPTS: &[(Interrupt, syms::Vector)] = &[
         (BOARD_CONSOLE, syms::BOARD_CONSOLE),
         (BOARD_BUTTON, syms::BOARD_BUTTON),
-        (BOARD_SPI, syms::BOARD_SPI),
         (BOARD_PWM, syms::BOARD_PWM),
         (BOARD_DMA_A, syms::BOARD_DMA_A),
         (BOARD_DMA_B, syms::BOARD_DMA_B),

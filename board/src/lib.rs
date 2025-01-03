@@ -140,11 +140,6 @@ const GPT1_DIVIDER: u32 = 10;
 const GPT2_DIVIDER: u32 = 100;
 const GPT_SELECTION: hal::gpt::ClockSource = hal::gpt::ClockSource::HighFrequencyReferenceClock;
 
-/// The console baud rate: 115200bps.
-pub const CONSOLE_BAUD: hal::lpuart::Baud = hal::lpuart::Baud::compute(UART_CLK_FREQUENCY, 115200);
-/// Target I2C baud rate (Hz).
-pub const I2C_BAUD_RATE: hal::lpi2c::Timing =
-    hal::lpi2c::Timing::ideal(LPI2C_CLK_FREQUENCY, hal::lpi2c::ClockSpeed::KHz400);
 
 use iomuxc::imxrt1010::Pads;
 
@@ -188,7 +183,6 @@ mod board_interrupts {
     extern "C" {
         pub fn BOARD_CONSOLE();
         pub fn BOARD_BUTTON();
-        pub fn BOARD_SPI();
         pub fn BOARD_PWM();
         pub fn BOARD_DMA_A();
         pub fn BOARD_DMA_B();
