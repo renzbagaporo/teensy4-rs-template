@@ -105,13 +105,6 @@ impl Specifics {
     }
 }
 
-use hal::ccm::clock_gate;
-
-/// The clock gates for this board's peripherals.
-pub(crate) const CLOCK_GATES: &[clock_gate::Locator] = &[
-    clock_gate::gpio::<1>(),
-];
-
 /// Configure board pins.
 ///
 /// Peripherals are responsible for pin muxing, so there's no need to

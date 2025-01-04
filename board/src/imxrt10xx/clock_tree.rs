@@ -9,18 +9,3 @@
 //! Use `*_frequency` functions to understand the target system clock frequencies.
 //! Note that these functions are `const`, and should be usable in constant
 //! contexts.
-
-pub(crate) use super::ahb::{ahb_frequency, configure_ahb_ipg};
-use crate::{
-    hal::ccm::{
-        clock_gate, perclk_clk,
-    },
-    ral::ccm::CCM,
-    RunMode,
-};
-
-pub(crate) const fn ipg_divider(run_mode: RunMode) -> u32 {
-    match run_mode {
-        RunMode::Overdrive => 4,
-    }
-}
