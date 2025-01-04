@@ -63,12 +63,6 @@ pub struct Common {
     ///
     /// May be used with the SRTC.
     pub snvs_lp_core: hal::snvs::LpCore,
-    /// USB1 core registers.
-    pub usb1: Usb1,
-    /// USB1 non-core registers.
-    pub usbnc1: UsbNc1,
-    /// USBPHY1 registers.
-    pub usbphy1: UsbPhy1,
 }
 
 impl Common {
@@ -103,9 +97,6 @@ impl Common {
             dma,
             srtc,
             snvs_lp_core,
-            usb1: unsafe { Usb1::instance() },
-            usbnc1: unsafe { UsbNc1::instance() },
-            usbphy1: unsafe { UsbPhy1::instance() },
         }
     }
 }
@@ -162,15 +153,6 @@ where
     gpt
 }
 
-mod usb1 {
-    use crate::ral;
-
-    pub type Usb1 = ral::usb::USB;
-    pub type UsbPhy1 = ral::usbphy::USBPHY;
-    pub type UsbNc1 = ral::usbnc::USBNC;
-}
-
-use usb1::*;
 
 type Pit = crate::ral::pit::PIT;
 
@@ -188,7 +170,6 @@ mod board_interrupts {
         pub fn BOARD_PIT();
         pub fn BOARD_GPT1();
         pub fn BOARD_GPT2();
-        pub fn BOARD_USB1();
         pub fn BOARD_SWTASK0();
     }
 }

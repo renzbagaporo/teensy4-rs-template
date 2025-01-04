@@ -203,7 +203,6 @@ pub mod interrupt {
     pub const BOARD_PIT: Interrupt = Interrupt::PIT;
     pub const BOARD_GPT1: Interrupt = Interrupt::GPT1;
     pub const BOARD_GPT2: Interrupt = Interrupt::GPT2;
-    pub const BOARD_USB1: Interrupt = Interrupt::USB_OTG1;
     pub const BOARD_SWTASK0: Interrupt = Interrupt::KPP;
 
     pub const INTERRUPTS: &[(Interrupt, syms::Vector)] = &[
@@ -214,7 +213,6 @@ pub mod interrupt {
         (BOARD_PIT, syms::BOARD_PIT),
         (BOARD_GPT1, syms::BOARD_GPT1),
         (BOARD_GPT2, syms::BOARD_GPT2),
-        (BOARD_USB1, syms::BOARD_USB1),
         (BOARD_SWTASK0, syms::BOARD_SWTASK0),
     ];
 }
