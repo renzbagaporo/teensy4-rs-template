@@ -43,14 +43,6 @@ pub use board_impl::*;
 pub struct Common {
     /// PIT channels.
     pub pit: hal::pit::Channels,
-    /// GPT1 timer.
-    ///
-    /// Use [`GPT1_FREQUENCY`] to understand its frequency.
-    pub gpt1: hal::gpt::Gpt<1>,
-    /// GPT2 timer.
-    ///
-    /// Use [`GPT2_FREQUENCY`] to understand its frequency.
-    pub gpt2: hal::gpt::Gpt<2>,
     /// Secure real-time counter.
     ///
     /// Examples may enable the SRTC.
@@ -69,9 +61,6 @@ impl Common {
         ral::modify_reg!(ral::pit, pit, MCR, FRZ: FRZ_1);
         let pit = hal::pit::new(pit);
 
-        let gpt1 = configure_gpt(unsafe { ral::gpt::GPT1::instance() }, GPT1_DIVIDER);
-        let gpt2 = configure_gpt(unsafe { ral::gpt::GPT2::instance() }, GPT2_DIVIDER);
-
         let hal::snvs::Snvs {
             low_power:
                 hal::snvs::LowPower {
@@ -84,8 +73,6 @@ impl Common {
 
         Self {
             pit,
-            gpt1,
-            gpt2,
             srtc,
             snvs_lp_core,
         }
@@ -118,11 +105,6 @@ pub fn new() -> (Common, Specifics) {
 /// The board's run mode.
 pub const RUN_MODE: RunMode = RunMode::Overdrive;
 
-const GPT1_DIVIDER: u32 = 10;
-const GPT2_DIVIDER: u32 = 100;
-const GPT_SELECTION: hal::gpt::ClockSource = hal::gpt::ClockSource::HighFrequencyReferenceClock;
-
-
 use iomuxc::imxrt1010::Pads;
 
 /// Convert the IOMUXC peripheral into pad objects.
@@ -131,19 +113,6 @@ fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
     // using this peripheral.
     unsafe { Pads::new() }
 }
-
-fn configure_gpt<const N: u8>(gpt: ral::gpt::Instance<N>, divider: u32) -> hal::gpt::Gpt<N>
-where
-    ral::gpt::Instance<N>: ral::Valid,
-{
-    let mut gpt = hal::gpt::Gpt::new(gpt);
-    gpt.disable();
-    gpt.set_wait_mode_enable(true);
-    gpt.set_clock_source(GPT_SELECTION);
-    gpt.set_divider(divider);
-    gpt
-}
-
 
 type Pit = crate::ral::pit::PIT;
 
@@ -157,8 +126,6 @@ mod board_interrupts {
         pub fn BOARD_CONSOLE();
         pub fn BOARD_BUTTON();
         pub fn BOARD_PIT();
-        pub fn BOARD_GPT1();
-        pub fn BOARD_GPT2();
     }
 }
 

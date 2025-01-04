@@ -6,7 +6,7 @@
 //! API, so we'll revisit this separation later.
 
 use super::clock_tree;
-use crate::{board_impl, hal, ral, GPT1_DIVIDER, GPT2_DIVIDER, RUN_MODE};
+use crate::{board_impl, hal, ral, RUN_MODE};
 
 /// Configure board clocks and power.
 ///
@@ -43,10 +43,6 @@ fn prepare_clock_tree(
 use hal::ccm::clock_gate;
 const COMMON_CLOCK_GATES: &[clock_gate::Locator] = &[
     clock_gate::pit(),
-    clock_gate::gpt_bus::<1>(),
-    clock_gate::gpt_bus::<2>(),
-    clock_gate::gpt_serial::<1>(),
-    clock_gate::gpt_serial::<2>(),
     clock_gate::trng(),
     clock_gate::snvs_lp(),
     clock_gate::snvs_hp(),
@@ -54,8 +50,3 @@ const COMMON_CLOCK_GATES: &[clock_gate::Locator] = &[
 
 /// The PIT clock frequency (Hz).
 pub const PIT_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE);
-
-/// The GPT1 clock frequency (Hz).
-pub const GPT1_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT1_DIVIDER;
-/// The GPT2 clock frequency (Hz).
-pub const GPT2_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT2_DIVIDER;

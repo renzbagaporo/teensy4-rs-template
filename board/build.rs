@@ -26,6 +26,4 @@ const DEVICE_X: &str = r#"
 PROVIDE(BOARD_CONSOLE = DefaultHandler);
 PROVIDE(BOARD_BUTTON = DefaultHandler);
 PROVIDE(BOARD_PIT = DefaultHandler);
-PROVIDE(BOARD_GPT1 = DefaultHandler);
-PROVIDE(BOARD_GPT2 = DefaultHandler);
 "#;
