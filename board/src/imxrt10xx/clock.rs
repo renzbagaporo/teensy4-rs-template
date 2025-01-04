@@ -48,7 +48,6 @@ const COMMON_CLOCK_GATES: &[clock_gate::Locator] = &[
     clock_gate::gpt_bus::<2>(),
     clock_gate::gpt_serial::<1>(),
     clock_gate::gpt_serial::<2>(),
-    clock_gate::dma(),
     clock_gate::trng(),
     clock_gate::snvs_lp(),
     clock_gate::snvs_hp(),

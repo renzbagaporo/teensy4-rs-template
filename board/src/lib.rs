@@ -28,8 +28,6 @@ pub enum RunMode {
     Overdrive,
 }
 
-pub use ral_shim::{BOARD_DMA_A_INDEX, BOARD_DMA_B_INDEX, NVIC_PRIO_BITS};
-
 #[path = "imxrt1010evk.rs"]
 mod board_impl;
 
@@ -53,8 +51,6 @@ pub struct Common {
     ///
     /// Use [`GPT2_FREQUENCY`] to understand its frequency.
     pub gpt2: hal::gpt::Gpt<2>,
-    /// DMA channels.
-    pub dma: [Option<hal::dma::channel::Channel>; hal::dma::CHANNEL_COUNT],
     /// Secure real-time counter.
     ///
     /// Examples may enable the SRTC.
@@ -76,10 +72,6 @@ impl Common {
         let gpt1 = configure_gpt(unsafe { ral::gpt::GPT1::instance() }, GPT1_DIVIDER);
         let gpt2 = configure_gpt(unsafe { ral::gpt::GPT2::instance() }, GPT2_DIVIDER);
 
-        let dma = hal::dma::channels(unsafe { ral::dma::DMA::instance() }, unsafe {
-            ral::dmamux::DMAMUX::instance()
-        });
-
         let hal::snvs::Snvs {
             low_power:
                 hal::snvs::LowPower {
@@ -94,7 +86,6 @@ impl Common {
             pit,
             gpt1,
             gpt2,
-            dma,
             srtc,
             snvs_lp_core,
         }
@@ -165,8 +156,6 @@ mod board_interrupts {
     extern "C" {
         pub fn BOARD_CONSOLE();
         pub fn BOARD_BUTTON();
-        pub fn BOARD_DMA_A();
-        pub fn BOARD_DMA_B();
         pub fn BOARD_PIT();
         pub fn BOARD_GPT1();
         pub fn BOARD_GPT2();
