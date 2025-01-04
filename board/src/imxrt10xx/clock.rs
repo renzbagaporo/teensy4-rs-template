@@ -37,7 +37,6 @@ fn prepare_clock_tree(
     use crate::hal::ccm;
     clock_tree::configure_ahb_ipg(RUN_MODE, ccm, ccm_analog);
     clock_tree::configure_perclk(RUN_MODE, ccm);
-    clock_tree::configure_uart(RUN_MODE, ccm);
     ccm::analog::pll3::restart(ccm_analog);
 }
 
@@ -60,6 +59,3 @@ pub const PIT_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE);
 pub const GPT1_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT1_DIVIDER;
 /// The GPT2 clock frequency (Hz).
 pub const GPT2_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT2_DIVIDER;
-
-/// The UART clock frequency (Hz).
-pub const UART_CLK_FREQUENCY: u32 = clock_tree::uart_frequency(RUN_MODE);

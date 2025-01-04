@@ -46,17 +46,6 @@ pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
 pub type Button = hal::gpio::Input<ButtonPad>;
 type ButtonPad = iomuxc::gpio_sd::GPIO_SD_05;
 
-/// The UART console. Baud specified in lib.rs.
-pub type Console = hal::lpuart::Lpuart<ConsolePins, 1>;
-
-/// The debug serial console's pins.
-///
-/// The UART routes to the DAP coprocessor, so the specific pins are not
-/// important. To interact with the console, attach to the serial interface of
-/// your board's DAP coprocssor. The coprocessor shuttles the data between your
-/// host and the MCU.
-pub type ConsolePins = crate::hal::lpuart::Pins<iomuxc::gpio::GPIO_10, iomuxc::gpio::GPIO_09>;
-
 /// Test point 34.
 ///
 /// Use this for measuring your application timing (as a GPIO).
@@ -134,7 +123,6 @@ use hal::ccm::clock_gate;
 /// The clock gates for this board's peripherals.
 pub(crate) const CLOCK_GATES: &[clock_gate::Locator] = &[
     clock_gate::gpio::<1>(),
-    clock_gate::lpuart::<{ Console::N }>(),
 ];
 
 /// Configure board pins.
@@ -196,14 +184,12 @@ pub mod interrupt {
     use crate::board_interrupts as syms;
     use crate::ral::Interrupt;
 
-    pub const BOARD_CONSOLE: Interrupt = Interrupt::LPUART1;
     pub const BOARD_BUTTON: Interrupt = Interrupt::GPIO2_COMBINED_0_15;
     pub const BOARD_PIT: Interrupt = Interrupt::PIT;
     pub const BOARD_GPT1: Interrupt = Interrupt::GPT1;
     pub const BOARD_GPT2: Interrupt = Interrupt::GPT2;
 
     pub const INTERRUPTS: &[(Interrupt, syms::Vector)] = &[
-        (BOARD_CONSOLE, syms::BOARD_CONSOLE),
         (BOARD_BUTTON, syms::BOARD_BUTTON),
         (BOARD_PIT, syms::BOARD_PIT),
         (BOARD_GPT1, syms::BOARD_GPT1),
