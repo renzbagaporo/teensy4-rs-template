@@ -15,8 +15,6 @@
 use crate::board_interrupts::Vector;
 use core::cell::UnsafeCell;
 
-pub use imxrt_ral::NVIC_PRIO_BITS;
-
 /// Insert shim vectors into the vector table.
 ///
 /// # Safety

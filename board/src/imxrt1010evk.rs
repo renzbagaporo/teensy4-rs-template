@@ -151,34 +151,6 @@ fn configure_pins(
     crate::iomuxc::ccm::prepare(&mut gpio_sd.p02);
 }
 
-/// Helpers for the clock_out example.
-pub mod clock_out {
-    use crate::hal::ccm::output_source::{clko1::Selection as Clko1, clko2::Selection as Clko2};
-
-    pub const CLKO1_SELECTIONS: [Clko1; 7] = [
-        Clko1::Pll3SwClkDiv2,
-        Clko1::Pll2Div2,
-        Clko1::EnetPllDiv2,
-        Clko1::AhbClk,
-        Clko1::IpgClk,
-        Clko1::Perclk,
-        Clko1::Pll4MainClk,
-    ];
-
-    pub const CLKO2_SELECTIONS: [Clko2; 9] = [
-        Clko2::Lpi2cClk,
-        Clko2::OscClk,
-        Clko2::LpspiClk,
-        Clko2::Sai1Clk,
-        Clko2::Sai3Clk,
-        Clko2::TraceClk,
-        Clko2::FlexspiClk,
-        Clko2::UartClk,
-        Clko2::Spdif0Clk,
-    ];
-
-    pub const MAX_DIVIDER_VALUE: u32 = 8;
-}
 
 pub mod interrupt {
     use crate::board_interrupts as syms;

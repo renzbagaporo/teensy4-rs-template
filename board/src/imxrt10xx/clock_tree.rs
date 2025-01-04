@@ -13,7 +13,7 @@
 pub(crate) use super::ahb::{ahb_frequency, configure_ahb_ipg};
 use crate::{
     hal::ccm::{
-        analog, clock_gate, lpi2c_clk, lpspi_clk, perclk_clk, XTAL_OSCILLATOR_HZ,
+        clock_gate, perclk_clk,
     },
     ral::ccm::CCM,
     RunMode,
