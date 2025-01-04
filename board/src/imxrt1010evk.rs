@@ -37,7 +37,7 @@ mod imxrt10xx {
     mod clock_tree;
 }
 
-pub use imxrt10xx::{clock::*, power::*};
+pub use imxrt10xx::{power::*};
 
 /// The board LED.
 pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
@@ -157,11 +157,9 @@ pub mod interrupt {
     use crate::ral::Interrupt;
 
     pub const BOARD_BUTTON: Interrupt = Interrupt::GPIO2_COMBINED_0_15;
-    pub const BOARD_PIT: Interrupt = Interrupt::PIT;
 
     pub const INTERRUPTS: &[(Interrupt, syms::Vector)] = &[
         (BOARD_BUTTON, syms::BOARD_BUTTON),
-        (BOARD_PIT, syms::BOARD_PIT),
     ];
 }
 pub use interrupt as Interrupt;

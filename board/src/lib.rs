@@ -41,8 +41,6 @@ pub use board_impl::*;
 /// This includes timers, DMA channels, and things
 /// that don't necessarily depend on a pinout.
 pub struct Common {
-    /// PIT channels.
-    pub pit: hal::pit::Channels,
     /// Secure real-time counter.
     ///
     /// Examples may enable the SRTC.
@@ -56,11 +54,6 @@ pub struct Common {
 impl Common {
     /// Prepares common resources.
     fn new() -> Self {
-        let pit: Pit = unsafe { Pit::instance() };
-        // Stop timers in debug mode.
-        ral::modify_reg!(ral::pit, pit, MCR, FRZ: FRZ_1);
-        let pit = hal::pit::new(pit);
-
         let hal::snvs::Snvs {
             low_power:
                 hal::snvs::LowPower {
@@ -72,7 +65,6 @@ impl Common {
         } = hal::snvs::new(unsafe { ral::snvs::SNVS::instance() });
 
         Self {
-            pit,
             srtc,
             snvs_lp_core,
         }
@@ -95,7 +87,6 @@ pub fn new() -> (Common, Specifics) {
     // Safety: once flag ensures that this only happens once.
     unsafe {
         ral_shim::shim_vectors();
-        configure();
         let mut common = Common::new();
         let specifics = Specifics::new(&mut common);
         (common, specifics)
@@ -114,8 +105,6 @@ fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
     unsafe { Pads::new() }
 }
 
-type Pit = crate::ral::pit::PIT;
-
 /// Board interrupts.
 ///
 /// Associated to interrupt numbers in board modules.
@@ -123,9 +112,7 @@ type Pit = crate::ral::pit::PIT;
 mod board_interrupts {
     pub type Vector = unsafe extern "C" fn();
     extern "C" {
-        pub fn BOARD_CONSOLE();
         pub fn BOARD_BUTTON();
-        pub fn BOARD_PIT();
     }
 }
 
