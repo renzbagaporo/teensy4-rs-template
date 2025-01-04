@@ -36,13 +36,11 @@ fn prepare_clock_tree(
 ) {
     use crate::hal::ccm;
     clock_tree::configure_ahb_ipg(RUN_MODE, ccm, ccm_analog);
-    clock_tree::configure_perclk(RUN_MODE, ccm);
     ccm::analog::pll3::restart(ccm_analog);
 }
 
 use hal::ccm::clock_gate;
 const COMMON_CLOCK_GATES: &[clock_gate::Locator] = &[
-    clock_gate::trng(),
     clock_gate::snvs_lp(),
     clock_gate::snvs_hp(),
 ];

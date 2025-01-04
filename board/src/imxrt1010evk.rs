@@ -79,8 +79,6 @@ pub struct Specifics {
     pub ports: GpioPorts,
     pub tp34: Tp34,
     pub tp31: Tp31,
-    pub trng: hal::trng::Trng,
-    pub tempmon: hal::tempmon::TempMon,
 }
 
 impl Specifics {
@@ -97,23 +95,12 @@ impl Specifics {
         let led = gpio1.output(iomuxc.gpio.p11);
         let button = gpio2.input(iomuxc.gpio_sd.p05);
 
-        let trng = hal::trng::Trng::new(
-            unsafe { ral::trng::TRNG::instance() },
-            Default::default(),
-            Default::default(),
-        );
-        let tempmon = hal::tempmon::TempMon::with_measure_freq(
-            unsafe { ral::tempmon::TEMPMON::instance() },
-            0x1000,
-        );
         Self {
             led,
             button,
             ports: GpioPorts { gpio2 },
             tp34: iomuxc.gpio_sd.p02,
             tp31: iomuxc.gpio_sd.p01,
-            trng,
-            tempmon,
         }
     }
 }
@@ -131,9 +118,7 @@ pub(crate) const CLOCK_GATES: &[clock_gate::Locator] = &[
 /// set alternates here.
 fn configure_pins(
     super::Pads {
-        ref mut gpio,
         ref mut gpio_sd,
-        ref mut gpio_ad,
         ..
     }: &mut super::Pads,
 ) {
