@@ -30,5 +30,4 @@ PROVIDE(BOARD_DMA_B = DefaultHandler);
 PROVIDE(BOARD_PIT = DefaultHandler);
 PROVIDE(BOARD_GPT1 = DefaultHandler);
 PROVIDE(BOARD_GPT2 = DefaultHandler);
-PROVIDE(BOARD_SWTASK0 = DefaultHandler);
 "#;

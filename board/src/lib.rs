@@ -170,7 +170,6 @@ mod board_interrupts {
         pub fn BOARD_PIT();
         pub fn BOARD_GPT1();
         pub fn BOARD_GPT2();
-        pub fn BOARD_SWTASK0();
     }
 }
 
