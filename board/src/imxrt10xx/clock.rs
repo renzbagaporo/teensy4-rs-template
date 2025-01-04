@@ -65,7 +65,3 @@ pub const GPT2_FREQUENCY: u32 = clock_tree::perclk_frequency(RUN_MODE) / GPT2_DI
 
 /// The UART clock frequency (Hz).
 pub const UART_CLK_FREQUENCY: u32 = clock_tree::uart_frequency(RUN_MODE);
-
-
-pub const PWM_PRESCALER: hal::flexpwm::Prescaler = hal::flexpwm::Prescaler::Prescaler8;
-pub const PWM_FREQUENCY: u32 = clock_tree::ipg_frequency(RUN_MODE) / PWM_PRESCALER.divider();

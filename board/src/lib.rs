@@ -183,7 +183,6 @@ mod board_interrupts {
     extern "C" {
         pub fn BOARD_CONSOLE();
         pub fn BOARD_BUTTON();
-        pub fn BOARD_PWM();
         pub fn BOARD_DMA_A();
         pub fn BOARD_DMA_B();
         pub fn BOARD_PIT();

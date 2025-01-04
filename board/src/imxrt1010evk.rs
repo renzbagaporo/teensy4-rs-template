@@ -57,35 +57,6 @@ pub type Console = hal::lpuart::Lpuart<ConsolePins, 1>;
 /// host and the MCU.
 pub type ConsolePins = crate::hal::lpuart::Pins<iomuxc::gpio::GPIO_10, iomuxc::gpio::GPIO_09>;
 
-/// PWM components.
-pub mod pwm {
-    use super::iomuxc;
-    use crate::hal::flexpwm;
-
-    /// The PWM peripheral instance.
-    ///
-    /// The RAL qualifies this as "PWM 0," even if the board schematic and
-    /// reference manual qualify this as "PWM 1." This is due to how the RAL
-    /// auto-generated register definitions in the presence of multiple instances
-    /// per peripheral.
-    pub type Peripheral = flexpwm::Pwm<{ crate::ral::SOLE_INSTANCE }>;
-    pub type Submodule = flexpwm::Submodule<{ Peripheral::N }, 2>;
-    pub type Outputs = (
-        flexpwm::Output<iomuxc::gpio_ad::GPIO_AD_04>, // A, J57_8
-        flexpwm::Output<iomuxc::gpio_ad::GPIO_AD_03>, // B, J57_10
-    );
-}
-
-/// The board's PWM components.
-pub struct Pwm {
-    /// Core PWM peripheral.
-    pub module: pwm::Peripheral,
-    /// PWM submodule control registers.
-    pub submodule: pwm::Submodule,
-    /// The output pairs (tuple of A, B outputs).
-    pub outputs: pwm::Outputs,
-}
-
 /// Test point 34.
 ///
 /// Use this for measuring your application timing (as a GPIO).
@@ -117,7 +88,6 @@ pub struct Specifics {
     pub led: Led,
     pub button: Button,
     pub ports: GpioPorts,
-    pub pwm: Pwm,
     pub tp34: Tp34,
     pub tp31: Tp31,
     pub trng: hal::trng::Trng,
@@ -138,20 +108,6 @@ impl Specifics {
         let led = gpio1.output(iomuxc.gpio.p11);
         let button = gpio2.input(iomuxc.gpio_sd.p05);
 
-        let pwm = {
-            let flexpwm = unsafe { ral::pwm::PWM::instance() };
-            let (pwm, (_, _, sm, _)) = hal::flexpwm::new(flexpwm);
-
-            let out_a = hal::flexpwm::Output::new_a(iomuxc.gpio_ad.p04);
-            let out_b = hal::flexpwm::Output::new_b(iomuxc.gpio_ad.p03);
-
-            super::Pwm {
-                module: pwm,
-                submodule: sm,
-                outputs: (out_a, out_b),
-            }
-        };
-
         let trng = hal::trng::Trng::new(
             unsafe { ral::trng::TRNG::instance() },
             Default::default(),
@@ -165,7 +121,6 @@ impl Specifics {
             led,
             button,
             ports: GpioPorts { gpio2 },
-            pwm,
             tp34: iomuxc.gpio_sd.p02,
             tp31: iomuxc.gpio_sd.p01,
             trng,
@@ -180,7 +135,6 @@ use hal::ccm::clock_gate;
 pub(crate) const CLOCK_GATES: &[clock_gate::Locator] = &[
     clock_gate::gpio::<1>(),
     clock_gate::lpuart::<{ Console::N }>(),
-    clock_gate::flexpwm::<{ pwm::Peripheral::N }>(),
 ];
 
 /// Configure board pins.
@@ -244,7 +198,6 @@ pub mod interrupt {
 
     pub const BOARD_CONSOLE: Interrupt = Interrupt::LPUART1;
     pub const BOARD_BUTTON: Interrupt = Interrupt::GPIO2_COMBINED_0_15;
-    pub const BOARD_PWM: Interrupt = Interrupt::PWM1_2;
     pub const BOARD_DMA_A: Interrupt = Interrupt::DMA7;
     pub const BOARD_DMA_B: Interrupt = Interrupt::DMA11;
     pub const BOARD_PIT: Interrupt = Interrupt::PIT;
@@ -256,7 +209,6 @@ pub mod interrupt {
     pub const INTERRUPTS: &[(Interrupt, syms::Vector)] = &[
         (BOARD_CONSOLE, syms::BOARD_CONSOLE),
         (BOARD_BUTTON, syms::BOARD_BUTTON),
-        (BOARD_PWM, syms::BOARD_PWM),
         (BOARD_DMA_A, syms::BOARD_DMA_A),
         (BOARD_DMA_B, syms::BOARD_DMA_B),
         (BOARD_PIT, syms::BOARD_PIT),

@@ -25,7 +25,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 const DEVICE_X: &str = r#"
 PROVIDE(BOARD_CONSOLE = DefaultHandler);
 PROVIDE(BOARD_BUTTON = DefaultHandler);
-PROVIDE(BOARD_PWM = DefaultHandler);
 PROVIDE(BOARD_DMA_A = DefaultHandler);
 PROVIDE(BOARD_DMA_B = DefaultHandler);
 PROVIDE(BOARD_PIT = DefaultHandler);
