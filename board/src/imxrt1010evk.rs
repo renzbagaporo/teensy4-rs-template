@@ -46,18 +46,6 @@ pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
 pub type Button = hal::gpio::Input<ButtonPad>;
 type ButtonPad = iomuxc::gpio_sd::GPIO_SD_05;
 
-/// Test point 34.
-///
-/// Use this for measuring your application timing (as a GPIO).
-/// Or, use it to evaluate clocks via `CCM_CLKO1`.
-pub type Tp34 = iomuxc::gpio_sd::GPIO_SD_02;
-
-/// Test point 31.
-///
-/// Use this for measuring your application timing (as a GPIO).
-/// Or, use it to evaluate clocks via `CCM_CLKO2`.
-pub type Tp31 = iomuxc::gpio_sd::GPIO_SD_01;
-
 /// Opaque structure for managing GPIO ports.
 ///
 /// Exposes methods to configure your board's specific GPIOs.
@@ -77,8 +65,6 @@ pub struct Specifics {
     pub led: Led,
     pub button: Button,
     pub ports: GpioPorts,
-    pub tp34: Tp34,
-    pub tp31: Tp31,
 }
 
 impl Specifics {
@@ -99,8 +85,6 @@ impl Specifics {
             led,
             button,
             ports: GpioPorts { gpio2 },
-            tp34: iomuxc.gpio_sd.p02,
-            tp31: iomuxc.gpio_sd.p01,
         }
     }
 }
