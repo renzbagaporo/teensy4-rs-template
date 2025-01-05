@@ -6,12 +6,6 @@ edition = "2021"
 [workspace]
 members = ["board"]
 
-[workspace.dependencies]
-imxrt-iomuxc = "0.3.0"
-imxrt-hal = { git = "https://github.com/imxrt-rs/imxrt-hal", rev="aa57636"}
-imxrt-ral = "0.6"
-imxrt-rt = "0.1.5"
-
 [workspace.package]
 repository = "https://github.com/imxrt-rs/imxrt-hal"
 keywords = ["imxrt", "nxp", "embedded", "no_std", "embedded-hal"]
@@ -21,7 +15,7 @@ edition = "2021"
 
 [dependencies]
 cortex-m = "0.7"
-imxrt-rt = { workspace = true }
+imxrt-rt = "0.1.5"
 board = {version = "*", path = "board"}
 panic-halt = "*"
 

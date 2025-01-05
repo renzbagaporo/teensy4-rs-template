@@ -6,22 +6,23 @@ edition = { workspace = true }
 publish = false
 
 [dependencies.imxrt-hal]
-workspace = true
+git = "https://github.com/imxrt-rs/imxrt-hal"
+rev="aa57636"
 features = ["imxrt1010"]
 
 [dependencies.imxrt-iomuxc]
-workspace = true
+version = "0.3.0"
 features = ["imxrt1010"]
 
 [dependencies.imxrt-ral]
-workspace = true
+version = "0.6"
 features = ["imxrt1011"]
 
 [dependencies.imxrt-rt]
-workspace = true
+version = "0.1.5"
 
 [build-dependencies.imxrt-rt]
-workspace = true
+version = "0.1.5"
 
 [dependencies.cortex-m]
 version = "0.7"
