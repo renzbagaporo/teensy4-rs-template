@@ -13,11 +13,6 @@ edition = "2021"
 [dependencies]
 panic-halt = "*"
 
-[dependencies.imxrt-hal]
-git = "https://github.com/imxrt-rs/imxrt-hal"
-rev="aa57636"
-features = ["imxrt1010"]
-
 [dependencies.imxrt-iomuxc]
 version = "0.3.0"
 features = ["imxrt1010"]
