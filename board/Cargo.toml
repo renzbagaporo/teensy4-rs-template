@@ -21,8 +21,6 @@ features = ["imxrt1011"]
 [dependencies.imxrt-rt]
 version = "0.1.5"
 
-[build-dependencies.imxrt-rt]
-version = "0.1.5"
 
 [dependencies.cortex-m]
 version = "0.7"

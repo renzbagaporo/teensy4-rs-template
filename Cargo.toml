@@ -19,6 +19,9 @@ imxrt-rt = "0.1.5"
 board = {version = "*", path = "board"}
 panic-halt = "*"
 
+[build-dependencies.imxrt-rt]
+version = "0.1.5"
+
 [[bin]]
 name = "rt1010-rs-blinky"
 test = false
