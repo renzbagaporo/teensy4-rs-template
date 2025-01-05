@@ -41,32 +41,12 @@ pub use board_impl::*;
 /// This includes timers, DMA channels, and things
 /// that don't necessarily depend on a pinout.
 pub struct Common {
-    /// Secure real-time counter.
-    ///
-    /// Examples may enable the SRTC.
-    pub srtc: hal::snvs::srtc::Disabled,
-    /// SNVS LP core registers.
-    ///
-    /// May be used with the SRTC.
-    pub snvs_lp_core: hal::snvs::LpCore,
 }
 
 impl Common {
     /// Prepares common resources.
     fn new() -> Self {
-        let hal::snvs::Snvs {
-            low_power:
-                hal::snvs::LowPower {
-                    core: snvs_lp_core,
-                    srtc,
-                    ..
-                },
-            ..
-        } = hal::snvs::new(unsafe { ral::snvs::SNVS::instance() });
-
         Self {
-            srtc,
-            snvs_lp_core,
         }
     }
 }
