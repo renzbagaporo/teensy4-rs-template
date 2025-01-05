@@ -27,15 +27,6 @@ fn panic() -> ! {
     cortex_m::asm::udf();
 }
 
-mod imxrt10xx {
-    pub mod clock;
-
-    #[path = "clock_tree/pll6_ahb.rs"]
-    mod ahb;
-
-    mod clock_tree;
-}
-
 /// The board LED.
 pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
 
