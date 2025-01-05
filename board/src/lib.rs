@@ -32,7 +32,6 @@ pub fn new() -> Specifics {
     return specifics;
 }
 
-
 use iomuxc::imxrt1010::Pads;
 
 /// Convert the IOMUXC peripheral into pad objects.
@@ -40,15 +39,4 @@ fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
     // Safety: acquired IOMUXC peripheral, so no one else is safely
     // using this peripheral.
     unsafe { Pads::new() }
-}
-
-/// Board interrupts.
-///
-/// Associated to interrupt numbers in board modules.
-#[allow(unused)]
-mod board_interrupts {
-    pub type Vector = unsafe extern "C" fn();
-    extern "C" {
-        pub fn BOARD_BUTTON();
-    }
 }

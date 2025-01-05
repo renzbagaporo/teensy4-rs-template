@@ -23,5 +23,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 const DEVICE_X: &str = r#"
-PROVIDE(BOARD_BUTTON = DefaultHandler);
 "#;
