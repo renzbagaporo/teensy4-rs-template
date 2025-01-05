@@ -69,5 +69,4 @@ imxrt1010evk = [
     "imxrt-hal/imxrt1010",
     "imxrt1010evk-fcb",
     "defmt-rtt",
-    "panic-probe",
 ]

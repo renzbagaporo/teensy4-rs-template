@@ -3,6 +3,7 @@
 #![no_main]
 #![no_std]
 
+use panic_halt as _;
 
 #[imxrt_rt::entry]
 fn main() -> ! {

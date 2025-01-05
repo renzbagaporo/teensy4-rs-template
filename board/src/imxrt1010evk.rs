@@ -19,14 +19,6 @@ use crate::{hal, iomuxc::imxrt1010 as iomuxc, ral};
 
 use imxrt1010evk_fcb as _;
 
-use panic_probe as _;
-
-#[defmt::panic_handler]
-fn panic() -> ! {
-    cortex_m::asm::udf();
-}
-
-/// The board LED.
 pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
 
 /// IMXRT1010EVK specific peripherals.
