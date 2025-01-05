@@ -5,9 +5,6 @@ edition = { workspace = true }
 # Only for testing, documentation.
 publish = false
 
-[dependencies.defmt]
-version = "0.3"
-
 [dependencies.imxrt-hal]
 workspace = true
 features = ["defmt"]
@@ -24,10 +21,6 @@ workspace = true
 [build-dependencies.imxrt-rt]
 workspace = true
 
-[dependencies.imxrt-usbd]
-workspace = true
-features = ["defmt-03"]
-
 [dependencies.cortex-m]
 version = "0.7"
 features = ["critical-section-single-core"]
@@ -36,27 +29,6 @@ features = ["critical-section-single-core"]
 [dependencies.imxrt-boot-gen]
 optional = true
 version = "0.2"
-
-# knurling-rs style defmt-rtt with panic-probe
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.defmt-rtt]
-version = "0.4"
-optional = true
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.panic-probe]
-version = "0.3"
-features = ["print-defmt"]
-optional = true
-
-# alternative rtt target with panic printing
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.rtt-target]
-version = "0.3"
-optional = true
-features = ["cortex-m"]
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.panic-rtt-target]
-version = "0.1"
-optional = true
-features = ["cortex-m"]
 
 [target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.imxrt1010evk-fcb]
 version = "0.1"
@@ -68,5 +40,4 @@ imxrt1010evk = [
     "imxrt-ral/imxrt1011",
     "imxrt-hal/imxrt1010",
     "imxrt1010evk-fcb",
-    "defmt-rtt",
 ]

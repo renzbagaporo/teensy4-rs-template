@@ -13,8 +13,6 @@
 //! that you populate and de-populate certain resistors. Compile-time
 //! configurations are faster than working with 0402 resistors.
 
-use defmt_rtt as _;
-
 use crate::{hal, iomuxc::imxrt1010 as iomuxc, ral};
 
 use imxrt1010evk_fcb as _;
