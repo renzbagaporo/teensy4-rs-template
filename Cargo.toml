@@ -3,9 +3,6 @@ name = "rt1010-rs-blinky"
 version = "0.1.0"
 edition = "2021"
 
-[workspace]
-members = ["board"]
-
 [workspace.package]
 repository = "https://github.com/imxrt-rs/imxrt-hal"
 keywords = ["imxrt", "nxp", "embedded", "no_std", "embedded-hal"]
@@ -14,10 +11,30 @@ license = "MIT OR Apache-2.0"
 edition = "2021"
 
 [dependencies]
-cortex-m = "0.7"
-imxrt-rt = "0.1.5"
-board = {version = "*", path = "board"}
 panic-halt = "*"
+
+[dependencies.imxrt-hal]
+git = "https://github.com/imxrt-rs/imxrt-hal"
+rev="aa57636"
+features = ["imxrt1010"]
+
+[dependencies.imxrt-iomuxc]
+version = "0.3.0"
+features = ["imxrt1010"]
+
+[dependencies.imxrt-ral]
+version = "0.6"
+features = ["imxrt1011"]
+
+[dependencies.imxrt-rt]
+version = "0.1.5"
+
+[dependencies.cortex-m]
+version = "0.7"
+features = ["critical-section-single-core"]
+
+[dependencies.imxrt1010evk-fcb]
+version = "0.1"
 
 [build-dependencies.imxrt-rt]
 version = "0.1.5"

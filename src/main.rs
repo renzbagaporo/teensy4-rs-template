@@ -3,12 +3,34 @@
 #![no_main]
 #![no_std]
 
+use imxrt_ral as ral;
+use imxrt_iomuxc as iomuxc;
+use imxrt_hal as hal;
+
 use panic_halt as _;
+use imxrt1010evk_fcb as _;
+
+use iomuxc::imxrt1010::Pads;
+
+/// Convert the IOMUXC peripheral into pad objects.
+fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
+    // Safety: acquired IOMUXC peripheral, so no one else is safely
+    // using this peripheral.
+    unsafe { Pads::new() }
+}
 
 #[imxrt_rt::entry]
 fn main() -> ! {
 
-    let board::Specifics { led, .. } = board::new();
+    let iomuxc = unsafe { ral::iomuxc::IOMUXC::instance() };
+    let iomuxc = convert_iomuxc(iomuxc);
+
+    let gpio1 = unsafe { ral::gpio::GPIO1::instance() };
+    let mut gpio1 = hal::gpio::Port::new(gpio1);
+
+    let led = gpio1.output(iomuxc.gpio.p11);
+
+
     let mut on = false;
     loop {
         on = !on;
