@@ -22,7 +22,7 @@ edition = "2021"
 [dependencies]
 cortex-m = "0.7"
 imxrt-rt = { workspace = true }
-board = {version = "*", path = "board", features = ["imxrt1010evk"]}
+board = {version = "*", path = "board"}
 panic-halt = "*"
 
 [[bin]]

@@ -7,12 +7,15 @@ publish = false
 
 [dependencies.imxrt-hal]
 workspace = true
+features = ["imxrt1010"]
 
 [dependencies.imxrt-iomuxc]
 workspace = true
+features = ["imxrt1010"]
 
 [dependencies.imxrt-ral]
 workspace = true
+features = ["imxrt1011"]
 
 [dependencies.imxrt-rt]
 workspace = true
@@ -24,19 +27,5 @@ workspace = true
 version = "0.7"
 features = ["critical-section-single-core"]
 
-# Other boards may choose to define their FCB inline.
-[dependencies.imxrt-boot-gen]
-optional = true
-version = "0.2"
-
-[target.'cfg(all(target_arch = "arm", target_os = "none"))'.dependencies.imxrt1010evk-fcb]
+[dependencies.imxrt1010evk-fcb]
 version = "0.1"
-optional = true
-
-[features]
-imxrt1010evk = [
-    "imxrt-iomuxc/imxrt1010",
-    "imxrt-ral/imxrt1011",
-    "imxrt-hal/imxrt1010",
-    "imxrt1010evk-fcb",
-]
