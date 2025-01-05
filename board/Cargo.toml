@@ -7,7 +7,6 @@ publish = false
 
 [dependencies.imxrt-hal]
 workspace = true
-features = ["defmt"]
 
 [dependencies.imxrt-iomuxc]
 workspace = true
