@@ -6,8 +6,6 @@
 
 #![no_std]
 
-use core::sync::atomic::{AtomicBool, Ordering};
-
 use imxrt_hal as hal;
 use imxrt_iomuxc as iomuxc;
 use imxrt_ral as ral;
@@ -21,21 +19,6 @@ mod board_impl;
 // So went with an '_impl' suffix.
 pub use board_impl::*;
 
-/// Components that are common to all boards.
-///
-/// This includes timers, DMA channels, and things
-/// that don't necessarily depend on a pinout.
-pub struct Common {
-}
-
-impl Common {
-    /// Prepares common resources.
-    fn new() -> Self {
-        Self {
-        }
-    }
-}
-
 /// Board entrypoint.
 ///
 /// Use this to configure the hardware and acquire peripherals.
@@ -44,15 +27,9 @@ impl Common {
 ///
 /// This should only be called once, at the top of your `main()` routine.
 /// It panics if any hardware resource is already taken.
-pub fn new() -> (Common, Specifics) {
-    static ONCE: AtomicBool = AtomicBool::new(false);
-    let done = ONCE.fetch_or(true, Ordering::SeqCst);
-    assert!(!done, "You've already initialized the board.");
-
-    // Safety: once flag ensures that this only happens once.
-    let mut common = Common::new();
-    let specifics = Specifics::new(&mut common);
-    (common, specifics)
+pub fn new() -> Specifics {
+    let specifics = Specifics::new();
+    return specifics;
 }
 
 

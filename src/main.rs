@@ -6,7 +6,7 @@
 
 #[imxrt_rt::entry]
 fn main() -> ! {
-    let (_, board::Specifics { led, .. }) = board::new();
+    let board::Specifics { led, .. } = board::new();
     let mut on = false;
     loop {
         on = !on;
