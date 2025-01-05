@@ -33,8 +33,9 @@ version = "0.1.5"
 version = "0.7"
 features = ["critical-section-single-core"]
 
-[dependencies.imxrt1010evk-fcb]
-version = "0.1"
+[dependencies.imxrt-boot-gen]
+features = ["imxrt1010"]
+version = "0.2"
 
 [build-dependencies.imxrt-rt]
 version = "0.1.5"

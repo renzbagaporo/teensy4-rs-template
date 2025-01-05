@@ -8,9 +8,10 @@ use imxrt_iomuxc as iomuxc;
 use imxrt_hal as hal;
 
 use panic_halt as _;
-use imxrt1010evk_fcb as _;
 
 use iomuxc::imxrt1010::Pads;
+
+pub mod fcb;
 
 /// Convert the IOMUXC peripheral into pad objects.
 fn convert_iomuxc(_: ral::iomuxc::IOMUXC) -> Pads {
