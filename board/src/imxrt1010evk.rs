@@ -29,15 +29,12 @@ fn panic() -> ! {
 
 mod imxrt10xx {
     pub mod clock;
-    pub mod power;
 
     #[path = "clock_tree/pll6_ahb.rs"]
     mod ahb;
 
     mod clock_tree;
 }
-
-pub use imxrt10xx::{power::*};
 
 /// The board LED.
 pub type Led = hal::gpio::Output<iomuxc::gpio::GPIO_11>;
